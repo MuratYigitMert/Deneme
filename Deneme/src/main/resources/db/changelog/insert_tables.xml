@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="insert_role" author="MuratY">
+        <insert tableName="role">
+            <column name="name" value="admin"/>
+        </insert>
+        <insert tableName="role">
+            <column name="name" value="user"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert_user" author="MuratY">
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="email" value="abc@abc.com"/>
+            <column name="role_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert_Category" author="MuratY">
+        <insert tableName="category">
+            <column name="name" value="Tools"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Drinks"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Food"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="Clothing"/>
+        </insert>
+    </changeSet>
+    <changeSet id="insert_product" author="MuratY">
+        <insert tableName="product">
+            <column name="category_id" value="1"/>
+            <column name="name" value="Screwdriver"/>
+            <column name="price" value="19.99"/>
+            <column name="explanation" value="This is the best tool for this price!"/>
+        </insert>
+        <insert tableName="product">
+            <column name="category_id" value="2"/>
+            <column name="name" value="Beypazari"/>
+            <column name="price" value="1.50"/>
+            <column name="explanation" value="No sugar, no harmful chemicals, drink it to cool it."/>
+        </insert>
+        <insert tableName="product">
+            <column name="category_id" value="3"/>
+            <column name="name" value="Chicken"/>
+            <column name="price" value="10.49"/>
+            <column name="explanation" value="Full of protein! Best for people who workout."/>
+        </insert>
+        <insert tableName="product">
+            <column name="category_id" value="4"/>
+            <column name="name" value="T-shirt Extra"/>
+            <column name="price" value="15.00"/>
+            <column name="explanation" value="This will make you shine wherever you go!"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="Kategori_to_Category" author="MuratY">
+        <renameTable oldTableName="kategori" newTableName="category"/>
+        <dropForeignKeyConstraint baseTableName="product" constraintName="fk_product_Kategori"/>
+        <addForeignKeyConstraint baseTableName="product" baseColumnNames="category_id" constraintName="fk_product_category"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="explanation_to_email" author="MuratY">
+        <renameColumn tableName="user" oldColumnName="explanation" newColumnName="email"/>
+    </changeSet>
+    <changeSet id="add_image_text_to_product" author="MuratY">
+        <addColumn tableName="product">
+            <column name="base64_image" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
