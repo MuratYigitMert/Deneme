@@ -1,10 +1,12 @@
 package HW3.Deneme.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "\"user\"")
@@ -18,11 +20,13 @@ public class User {
     @Column(nullable = false)
     private String username;
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String email;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
+    private List<Orders> orders;
 }

@@ -26,5 +26,28 @@
         </createTable>    
     </changeSet>
 
+    <changeSet id="create_order_table" author="MuratYigitMert">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints foreignKeyName="fk_user_to_order" nullable="false" references="user(id)"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DOUBLE PRECISION">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+
+
+        </createTable>
+    </changeSet>
+
 
 </databaseChangeLog>

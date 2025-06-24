@@ -1,5 +1,5 @@
 package HW3.Deneme.Entity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Getter;
@@ -18,6 +18,6 @@ public class Role {
     @Column(nullable = false)
     private String name;
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore  // Ignore users list when serializing Role
     private List<User> users;
 }

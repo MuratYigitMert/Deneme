@@ -54,4 +54,18 @@ public class ProductService {
                 categoryNames != null ? categoryNames.stream().map(String::toLowerCase).toList() : List.of(),
                 pageable);
     }
+    public void deleteProductById(int id) {
+         productRepo.deleteById(id);
+
+    }
+    public Product updateProduct(int id, Product product) {
+        Product prevproduct= productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        prevproduct.setName(product.getName());
+        prevproduct.setPrice(product.getPrice());
+        prevproduct.setExplanation(product.getExplanation());
+        prevproduct.setCategory(product.getCategory());
+        prevproduct.setBase64Image(product.getBase64Image());
+
+        return productRepo.save(prevproduct);
+    }
 }

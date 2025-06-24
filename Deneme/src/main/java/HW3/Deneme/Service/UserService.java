@@ -27,4 +27,8 @@ public class UserService {
         user.setRole(newRoleName);
         return  userRepo.save(user);
     }
+    public User getUserById(int userID) {
+        return userRepo.findById(userID)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

@@ -63,4 +63,14 @@
         </insert>
 
     </changeSet>
+    <changeSet id="insert_orders" author="MuratY">
+        <insert tableName="orders">
+            <column name="user_id" value="1"/>
+            <column name="name" value="Beypazari"/>
+            <column name="price" value="1.5"/>
+            <column name="quantity" value="1"/>
+
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
