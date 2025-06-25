@@ -2,6 +2,7 @@ package HW3.Deneme.Service;
 
 import HW3.Deneme.Entity.Role;
 import HW3.Deneme.Entity.User;
+import HW3.Deneme.Exception.ResourceNotFoundException;
 import HW3.Deneme.Repository.RoleRepo;
 import HW3.Deneme.Repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ public class UserService {
 
     public User changeUserRole(int userID, String role) {
         User user = userRepo.findById(userID)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Role newRoleName= roleRepo.findByName(role);
         user.setRole(newRoleName);
         return  userRepo.save(user);
     }
     public User getUserById(int userID) {
         return userRepo.findById(userID)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }

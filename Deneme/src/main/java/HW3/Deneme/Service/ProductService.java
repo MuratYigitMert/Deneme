@@ -2,6 +2,7 @@ package HW3.Deneme.Service;
 
 import HW3.Deneme.Entity.Category;
 import HW3.Deneme.Entity.Product;
+import HW3.Deneme.Exception.ResourceNotFoundException;
 import HW3.Deneme.Repository.CategoryRepo;
 import HW3.Deneme.Repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ProductService {
 
     public Product getProductById(int id) {
         return productRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
     public Product addProduct(Product product) {
@@ -33,7 +34,7 @@ public class ProductService {
 
     public Product addProductWithImage(String name, Double price, String explanation, int categoryId, String base64Image) {
         Category category = categoryRepo.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + categoryId));
 
         Product product = new Product();
         product.setName(name);
@@ -63,7 +64,7 @@ public class ProductService {
 
     }
     public Product updateProduct(int id, Product product) {
-        Product prevproduct= productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        Product prevproduct= productRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         prevproduct.setName(product.getName());
         prevproduct.setPrice(product.getPrice());
         prevproduct.setExplanation(product.getExplanation());

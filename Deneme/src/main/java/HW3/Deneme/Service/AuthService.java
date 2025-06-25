@@ -7,6 +7,8 @@ import HW3.Deneme.Dto.LoginResponse;
 import HW3.Deneme.Dto.UserRegisterRequest;
 import HW3.Deneme.Entity.Role;
 import HW3.Deneme.Entity.User;
+import HW3.Deneme.Exception.AuthenticationException;
+import HW3.Deneme.Exception.ResourceNotFoundException;
 import HW3.Deneme.Repository.RoleRepo;
 import HW3.Deneme.Repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +36,13 @@ public class AuthService {
 
 
             User user = userRepo.findByEmail(loginRequest.getEmail())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
             String token = jwtUtil.createToken(user);
             return new LoginResponse(token, user.getUsername(), user.getEmail());
 
         } catch (BadCredentialsException e) {
-            throw new RuntimeException("Invalid username/password");
+            throw new AuthenticationException("Invalid username/password");
         }
 
     }
