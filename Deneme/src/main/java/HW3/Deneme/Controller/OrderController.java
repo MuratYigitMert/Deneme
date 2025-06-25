@@ -2,6 +2,7 @@ package HW3.Deneme.Controller;
 
 
 import HW3.Deneme.Dto.OrderRequest;
+import HW3.Deneme.Dto.OrderResponse;
 import HW3.Deneme.Entity.Orders;
 import HW3.Deneme.Entity.Product;
 import HW3.Deneme.Entity.User;
@@ -12,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,24 +27,41 @@ public class OrderController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<Orders> getAllOrders(Pageable pageable) {
-        return ordersService.getAllOrders(pageable);
+    public  ResponseEntity<Page<OrderResponse>> getAllOrders(Pageable pageable) {
+        Page<Orders> orders = ordersService.getAllOrders(pageable);
+        Page<OrderResponse> dtos = orders.map(this::toDto);
+
+
+        return ResponseEntity.ok(dtos);
+
     }
     @GetMapping("/{id}")
-    public Orders getOrderById(@PathVariable int id) {
-        return ordersService.getOrderById(id);
+    public ResponseEntity<OrderResponse> getOrderById(@PathVariable int id) {
+        return ResponseEntity.ok(toDto(ordersService.getOrderById(id)));
     }
     @GetMapping("/user/{userId}")
-    public List<Orders> getOrdersByUser(@PathVariable int userId) {
-        return ordersService.getOrdersByUserId(userId);
+    public ResponseEntity<Page<Orders>> getOrdersByUser(@PathVariable int userId,Pageable pageable) {
+        return ResponseEntity.ok(ordersService.getOrdersByUserId(userId,pageable));
     }
     @PostMapping
-    public Orders createOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request) {
         User user= userService.getUserById(request.getUserId());
         Product product= productService.getProductById(request.getProductId());
         int quantity= request.getQuantity();
+        OrderResponse response= toDto(ordersService.addOrder(user, product, quantity));
 
-        return ordersService.addOrder(user, product, quantity);
+        return ResponseEntity.ok(response);
+    }
+
+    private OrderResponse toDto(Orders order) {
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setId(order.getId());
+        orderResponse.setName(order.getName());
+        orderResponse.setPrice(order.getPrice());
+        orderResponse.setQuantity(order.getQuantity());
+        orderResponse.setUserId(order.getUser().getId());
+
+        return orderResponse;
     }
 
 }

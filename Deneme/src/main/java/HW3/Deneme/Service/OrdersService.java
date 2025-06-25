@@ -22,8 +22,8 @@ public class OrdersService {
         return ordersRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
-    public List<Orders> getOrdersByUserId(int userId) {
-        return ordersRepo.findOrderByUserId(userId);
+    public Page<Orders> getOrdersByUserId(int userId,Pageable pageable) {
+        return ordersRepo.findOrderByUserId(userId,pageable);
     }
     public Orders addOrder(User user, Product product, int quantity) {
         Orders order= new Orders();

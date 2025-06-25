@@ -1,6 +1,8 @@
 package HW3.Deneme.Controller;
 
 
+import HW3.Deneme.Dto.DtoConverter;
+import HW3.Deneme.Dto.ProductResponse;
 import HW3.Deneme.Dto.RoleChangeRequest;
 import HW3.Deneme.Entity.Product;
 import HW3.Deneme.Entity.User;
@@ -35,23 +37,24 @@ public class AdminController {
     }
     @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/deleteProduct/{id}")
-    public String deleteById(@PathVariable int id) {
+    public ResponseEntity<String> deleteById(@PathVariable int id) {
         productService.deleteProductById(id);
-        return "Product deleted";
+        return ResponseEntity.ok("Product deleted");
     }
+
     @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/updateProduct/{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable int id, @RequestBody Product product) {
+        return ResponseEntity.ok(DtoConverter.toDto(productService.updateProduct(id, product))) ;
     }
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/addProduct")
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody Product product) {
+        return ResponseEntity.ok(DtoConverter.toDto(productService.addProduct(product)));
     }
     @PreAuthorize("hasAuthority('admin')")
     @PostMapping("/upload")
-    public ResponseEntity<Product> uploadProduct(
+    public ResponseEntity<ProductResponse> uploadProduct(
             @RequestParam("name") String name,
             @RequestParam("price") Double price,
             @RequestParam("explanation") String explanation,
@@ -60,6 +63,6 @@ public class AdminController {
     ) throws IOException {
         String base64Image = Base64.getEncoder().encodeToString(imageFile.getBytes());
         Product saved = productService.addProductWithImage(name, price, explanation, categoryId, base64Image);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(DtoConverter.toDto(saved));
     }
 }

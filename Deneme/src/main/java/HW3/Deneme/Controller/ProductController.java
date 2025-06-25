@@ -1,12 +1,13 @@
 package HW3.Deneme.Controller;
 
-import HW3.Deneme.Entity.Product;
+import HW3.Deneme.Dto.DtoConverter;
+import HW3.Deneme.Dto.ProductResponse;
 import HW3.Deneme.Service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -17,25 +18,30 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productService.getAllProducts(pageable);
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {
+        Page<ProductResponse> response = productService.getAllProducts(pageable)
+                .map(DtoConverter::toDto);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable int id) {
-        return productService.getProductById(id);
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable int id) {
+        return ResponseEntity.ok(DtoConverter.toDto(productService.getProductById(id)));
     }
 
 
 
 
     @GetMapping("/search")
-    public Page<Product> searchProducts(
+    public ResponseEntity<Page<ProductResponse>> searchProducts(
             @RequestParam(required = false) String searchText,
             @RequestParam(required = false) List<String> categoryNames,
             Pageable pageable
     ) {
-        return productService.searchProducts(searchText, categoryNames, pageable);
+        Page<ProductResponse> result = productService
+                .searchProducts(searchText, categoryNames, pageable)
+                .map(DtoConverter::toDto);
+        return ResponseEntity.ok(result);
     }
 
 
