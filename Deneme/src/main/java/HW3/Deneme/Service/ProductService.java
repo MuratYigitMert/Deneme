@@ -49,9 +49,13 @@ public class ProductService {
         if ((searchText == null || searchText.isEmpty()) && (categoryNames == null || categoryNames.isEmpty())) {
             return productRepo.findAll(pageable);
         }
+        if (categoryNames != null && categoryNames.isEmpty()) {
+            categoryNames = null;
+        }
+
         return productRepo.findByCategoryOrProductNames(
                 searchText != null ? searchText : "",
-                categoryNames != null ? categoryNames.stream().map(String::toLowerCase).toList() : List.of(),
+                categoryNames != null ? categoryNames.stream().map(String::toLowerCase).toList() : null,
                 pageable);
     }
     public void deleteProductById(int id) {

@@ -35,9 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-
+        String path = request.getServletPath();
+        if (path.startsWith("/api/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         System.out.println("JWT Filter triggered for URI: " + request.getRequestURI());
-
         Claims claims;
         try {
             claims = jwtUtil.resolveClaims(request);
