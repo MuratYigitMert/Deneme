@@ -5,7 +5,7 @@ import HW3.Deneme.Dto.LoginResponse;
 import HW3.Deneme.Dto.RegisterResponse;
 import HW3.Deneme.Dto.UserRegisterRequest;
 import HW3.Deneme.Entity.User;
-import HW3.Deneme.Service.AuthService;
+import HW3.Deneme.Service.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final IAuthService iAuthService;
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> registerUser(@RequestBody UserRegisterRequest request) {
-        User user = authService.register(request);
+        User user = iAuthService.register(request);
         RegisterResponse response = new RegisterResponse();
         response.setEmail(user.getEmail());
         response.setUsername(user.getUsername());
@@ -28,6 +28,6 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+        return ResponseEntity.ok(iAuthService.login(loginRequest));
     }
 }

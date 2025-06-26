@@ -3,7 +3,7 @@ package HW3.Deneme.Controller;
 import HW3.Deneme.Dto.DtoConverter;
 import HW3.Deneme.Dto.RoleResponse;
 import HW3.Deneme.Entity.Role;
-import HW3.Deneme.Service.RoleService;
+import HW3.Deneme.Service.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/roles")
 
 public class RoleController {
-    private final RoleService roleService;
+    private final IRoleService roleServiceImpl;
     @GetMapping
     public ResponseEntity<Page<RoleResponse>> getAllRoles(Pageable pageable) {
-        Page<Role> roles = roleService.getAllRoles(pageable);
+        Page<Role> roles = roleServiceImpl.getAllRoles(pageable);
         Page<RoleResponse> response = roles.map(DtoConverter::toDto);
         return ResponseEntity.ok(response);
     }

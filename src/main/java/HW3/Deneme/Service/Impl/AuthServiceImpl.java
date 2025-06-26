@@ -1,4 +1,4 @@
-package HW3.Deneme.Service;
+package HW3.Deneme.Service.Impl;
 
 
 import HW3.Deneme.Auth.JwtUtil;
@@ -11,6 +11,7 @@ import HW3.Deneme.Exception.AuthenticationException;
 import HW3.Deneme.Exception.ResourceNotFoundException;
 import HW3.Deneme.Repository.RoleRepo;
 import HW3.Deneme.Repository.UserRepo;
+import HW3.Deneme.Service.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,13 +20,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements IAuthService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-
+    @Override
     public LoginResponse login(LoginRequest loginRequest){
         try {
 

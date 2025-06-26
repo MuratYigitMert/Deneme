@@ -6,9 +6,9 @@ import HW3.Deneme.Dto.OrderResponse;
 import HW3.Deneme.Entity.Orders;
 import HW3.Deneme.Entity.Product;
 import HW3.Deneme.Entity.User;
-import HW3.Deneme.Service.OrdersService;
-import HW3.Deneme.Service.ProductService;
-import HW3.Deneme.Service.UserService;
+import HW3.Deneme.Service.IOrdersService;
+import HW3.Deneme.Service.Impl.ProductServiceImpl;
+import HW3.Deneme.Service.Impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @EnableSpringDataWebSupport
 @RequestMapping("/api/orders")
 public class OrderController {
-    private final OrdersService ordersService;
-    private final UserService userService;
-    private final ProductService productService;
+    private final IOrdersService ordersService;
+    private final UserServiceImpl userServiceImpl;
+    private final ProductServiceImpl productServiceImpl;
 
     @GetMapping
     public  ResponseEntity<Page<OrderResponse>> getAllOrders(Pageable pageable) {
@@ -45,8 +45,8 @@ public class OrderController {
     }
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request) {
-        User user= userService.getUserById(request.getUserId());
-        Product product= productService.getProductById(request.getProductId());
+        User user= userServiceImpl.getUserById(request.getUserId());
+        Product product= productServiceImpl.getProductById(request.getProductId());
         int quantity= request.getQuantity();
         OrderResponse response= toDto(ordersService.addOrder(user, product, quantity));
 

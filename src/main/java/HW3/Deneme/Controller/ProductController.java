@@ -2,7 +2,7 @@ package HW3.Deneme.Controller;
 
 import HW3.Deneme.Dto.DtoConverter;
 import HW3.Deneme.Dto.ProductResponse;
-import HW3.Deneme.Service.ProductService;
+import HW3.Deneme.Service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductService productService;
+    private final IProductService productService;
 
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {

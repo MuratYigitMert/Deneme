@@ -19,13 +19,13 @@ public class User {
     private int id;
     @Column(nullable = false)
     private String username;
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String email;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
     private List<Orders> orders;
