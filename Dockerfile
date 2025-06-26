@@ -1,12 +1,13 @@
-# Use a base image with Java 17 (or your JDK version)
-FROM eclipse-temurin:17-jdk-alpine
-
-# Set working directory inside container
+# === Stage 1: Build app ===
+FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the jar file from target folder into the container
-COPY target/Deneme-0.0.1-SNAPSHOT.jar app.jar
+# === Stage 2: Run app ===
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/Deneme-0.0.1-SNAPSHOT.jar app.jar
 
-
-# Run the jar file
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
