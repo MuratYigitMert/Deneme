@@ -1,14 +1,17 @@
-package HW3.Deneme.Service;
+package HW3.Deneme.Service.Impl;
 
 import HW3.Deneme.Entity.User;
 import HW3.Deneme.Repository.UserRepo;
+import HW3.Deneme.Service.ICustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements ICustomUserDetailsService, UserDetailsService {
     private final UserRepo userRepo;
 
     @Override
@@ -19,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
-                .authorities(user.getRole().getName()) // or .roles(...) if using roles
+                .authorities(user.getRole().getName())
                 .build();
     }
 }

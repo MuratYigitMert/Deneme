@@ -1,6 +1,6 @@
 package HW3.Deneme.Config;
 
-import HW3.Deneme.Service.CustomUserDetailsService;
+import HW3.Deneme.Service.Impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsServiceImpl userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
