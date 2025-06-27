@@ -100,19 +100,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-maven-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>encrypt</goal>
-							<goal>decrypt</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 
 
 			<plugin>
