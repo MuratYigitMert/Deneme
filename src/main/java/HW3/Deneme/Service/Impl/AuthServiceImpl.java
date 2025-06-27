@@ -17,6 +17,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class AuthServiceImpl implements IAuthService {
 
     }
 
-
+    @Transactional
     public User register(UserRegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());

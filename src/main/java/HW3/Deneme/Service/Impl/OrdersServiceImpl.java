@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class OrdersServiceImpl implements IOrdersService {
     public Page<Orders> getOrdersByUserId(int userId, Pageable pageable) {
         return ordersRepo.findOrderByUserId(userId, pageable);
     }
-
+    @Transactional
     @Override
     public Orders addOrder(User user, Product product, int quantity) {
         Orders order = new Orders();

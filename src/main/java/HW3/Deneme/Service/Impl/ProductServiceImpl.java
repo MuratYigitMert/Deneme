@@ -31,6 +31,7 @@ public class ProductServiceImpl implements IProductService {
         return productRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
+    @Transactional
     @Override
     public Product addProduct(Product product) {
         return productRepo.save(product);
@@ -50,6 +51,8 @@ public class ProductServiceImpl implements IProductService {
 
         return productRepo.save(product);
     }
+
+
     @Override
     public Page<Product> searchProducts(String searchText, List<String> categoryNames, Pageable pageable) {
         if ((searchText == null || searchText.isEmpty()) && (categoryNames == null || categoryNames.isEmpty())) {
@@ -64,11 +67,13 @@ public class ProductServiceImpl implements IProductService {
                 categoryNames != null ? categoryNames.stream().map(String::toLowerCase).toList() : null,
                 pageable);
     }
+    @Transactional
     @Override
     public void deleteProductById(int id) {
          productRepo.deleteById(id);
 
     }
+    @Transactional
     @Override
     public Product updateProduct(int id, Product product) {
         Product prevproduct= productRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
